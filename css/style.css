@@ -1,0 +1,115 @@
+.header {
+    height:10vh;
+}
+
+.body {
+    height:90vh;
+    top:10vh;
+}
+
+.profile {
+    height:50px;
+    width:100%;
+    line-height:50px;
+}
+
+/* a {
+    width:100%;
+    height:100%;
+    text-decoration:none;
+    text-align:center;
+    font-size:1em;
+    color:white;
+    line-height:100%;
+} */
+
+.users {
+    width:100%;
+    height:50px;
+    cursor:hand;
+    cursor:pointer;
+    font-size:1em;
+    text-decoration:none;
+}
+
+.logout {
+    height:50px;
+    line-height: 50px;
+}
+
+.chat-header {
+    height:150px;
+    position:fixed;
+}
+
+.chat-body {
+    
+    height:calc(100vh - 300px);
+    overflow:scroll;
+    position:fixed;
+    
+}
+.send-area {
+    height:150px;
+    position:fixed;
+}
+
+/* .send-text {
+    width:100%;
+} */
+
+/* .send-button {
+    font-size:4em;
+} */
+
+#send-file {
+    display: none;
+}
+
+#avatar {  
+    color:#00697A;
+    cursor:pointer;
+    cursor:hand;
+}
+
+.panel-group {
+    height:50px;
+    width:100%;
+    line-height:50px;
+    text-align:center;
+    font-size:1.2em;
+}
+
+.opponent-message-icon {
+    width:50px;
+    height:50px;
+}
+
+.opponent-message-text {
+    font-size:1.5em;
+    border-style: solid; border-width: 5px;
+}
+
+.my-message-icon {
+    width:50px;
+    height:50px;
+    left:calc(100% - 2rem - 50px);
+}
+
+.my-message-text {
+    font-size:1.5em;
+    left:calc(50% - 3rem);
+    border-style: solid; border-width: 5px;
+}
+
+.my-message-date {
+    left:calc(100% - 230px - 2rem);
+}
+
+a {
+    cursor:pointer;
+    cursor:hand;
+    position:relative;
+    height:100%;
+    width:100%;
+}
