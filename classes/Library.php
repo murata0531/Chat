@@ -51,17 +51,6 @@ class Library extends Database {
         }
     }
 
-    public function delete_user($id){
-        $sql = "DELETE FROM books WHERE book_id = '$id'";
-        $return = $this->conn->query($sql);
-
-        if($return == TRUE){
-            header('location:Read.php');
-        }else {
-            die('ERROR: ' .$this->conn->error);
-        }
-    }
-
     //Login
     public function login($email,$password){
 
@@ -98,17 +87,6 @@ class Library extends Database {
             header('location:./UI?error=' . $error);
 
             exit();
-        }
-    }
-
-    public function update_book($id,$name,$genre,$author,$added){
-        $sql = "UPDATE books SET book_name = '$name',book_genre = '$genre',book_author = '$author',date_added = '$added' Where book_id = '$id'";
-        $return = $this->conn->query($sql);
-
-        if($return == TRUE){
-            header('location:Read.php');
-        }else {
-            die('ERROR: ' .$this->conn->error);
         }
     }
 
@@ -201,7 +179,7 @@ class Library extends Database {
         $select_sql = "SELECT user_id FROM namings WHERE user_id = '$my_id' AND opponent_id = '$selected_user_id'";
         $select_result = $this->conn->query($select_sql);
 
-        if($select_result == FALSE){
+        if($select_result->num_rows == 0){
 
             //If the chat name is not set, use the opponent name as the chat name
             if($temp_name == null){
@@ -211,7 +189,7 @@ class Library extends Database {
             }
 
             //Set the my chat name
-            $add_sql = "INSERT INTO namings(user_id,opponent_id,chat_name)VALUES('$my_id','$selected_user_id','$oppo_name')";
+            $add_sql = "INSERT INTO namings(user_id,opponent_id,chat_name)VALUES('$my_id','$selected_user_id','$chat_name')";
             $add_result = $this->conn->query($add_sql);
 
             if($add_result == TRUE){
@@ -219,33 +197,53 @@ class Library extends Database {
                 //set the opponent chat name
                 $add_opponent_sql = "INSERT INTO namings(user_id,opponent_id,chat_name)VALUES('$selected_user_id','$my_id','$my_name')";
     
-                $add_opponent__result = $this->conn->query($add_opponent_sql);
+                $add_opponent_result = $this->conn->query($add_opponent_sql);
     
                 if($add_opponent_result == TRUE){
 
                     //insert chat room
                     $add_chat_sql = "INSERT INTO chat(chat_type)VALUES(1)";
-                    $add_chat_result = $this->conn->query($add_sql);
+                    $add_chat_result = $this->conn->query($add_chat_sql);
 
                     if($add_chat_result == TRUE){
 
                         //select chat_id
-                        $chat_row[] = $add_chat_result->fetch_assoc();
-                        $chat_id = $chat_row['chat_id'];
-                        // insert managw the chat
-                        $add_opponent_sql = "INSERT INTO chat_management(user_id,chat_id)VALUES('$my_id','$chat_id')";
-    
-                        $add_opponent_result = $this->conn->query($add_opponent_sql);
+                        $chat_sql = "SELECT LAST_INSERT_ID() as cid";
+                        // $chat_sql = "SELECT MAX('chat_id') FROM chat";
+                        $chat_result = $this->conn->query($chat_sql);
+
+                        if($chat_result == TRUE){
+
+                            $chat_row[] = $chat_result->fetch_assoc();
+                            print_r($chat_row);
+                            $chat_id = $chat_row[0]['cid'];
+
+                            print_r($chat_id);
+                            // add my_id to chat management
+                            $my_chat_management_sql = "INSERT INTO chat_management(user_id,chat_id)VALUES('$my_id','$chat_id')";
+        
+                            $my_chat_management_result = $this->conn->query($my_chat_management_sql);
+                
+                            if($my_chat_management_result == TRUE){
+                                
+                                 // add opponent_id to chat management
+                                $opponent_chat_management_sql = "INSERT INTO chat_management(user_id,chat_id)VALUES('$selected_user_id','$chat_id')";
             
-                        if($add_opponent_result == TRUE){
-                            print_r("ok");
+                                $opponent_chat_management_result = $this->conn->query($opponent_chat_management_sql);
+                    
+                                if($opponent_chat_management_result == TRUE){
+                                    print_r("ok");
+                                }
+                            }
                         }
+                       
                     }
                 }
             }
             
         }
         
+        header('location:./home.php');
     }
 }
 
