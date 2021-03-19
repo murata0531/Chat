@@ -183,57 +183,67 @@ class Library extends Database {
     }
 
     //private member add
-    public function private_member_add($my_id,$my_name,$selected_user_id,$chat_name = null){
+    public function private_member_add($my_id,$my_name,$selected_user_id,$temp_name = null){
 
 
         // opponent_user_name select
-        $opponent_sql = "SELECT user_name FROM users WHERE user_id = '$selected_user_id'";
+        $opponent_sql = "SELECT * FROM users WHERE user_id = '$selected_user_id'";
 
         $opponent_result = $this->conn->query($opponent_sql);
 
         if($opponent_result->num_rows > 0){
            
-            $oppo_name = $result->fetch_assoc();
-            
+            $oppo_row[] = $opponent_result->fetch_assoc();
+            $oppo_name = $oppo_row[0]['user_name'];
         }
 
-        // check private_member
+        // Check private_member : already registered?
         $select_sql = "SELECT user_id FROM namings WHERE user_id = '$my_id' AND opponent_id = '$selected_user_id'";
-        $select_result = $this->conn->query($sql);
+        $select_result = $this->conn->query($select_sql);
 
-        if($select_result == TRUE){
-            // user_id	opponent_id	chat_name
+        if($select_result == FALSE){
 
-            if($chat == null){
+            //If the chat name is not set, use the opponent name as the chat name
+            if($temp_name == null){
+                $chat_name = $oppo_name;
+            }else {
+                $chat_name = $temp_name;
+            }
 
-                $add_sql = "INSERT INTO namings(user_id,opponent_id,chat_name)VALUES('$my_id','$selected_user_id','$oppo_name')";
-                $add_result = $this->conn->query($add_sql);
+            //Set the my chat name
+            $add_sql = "INSERT INTO namings(user_id,opponent_id,chat_name)VALUES('$my_id','$selected_user_id','$oppo_name')";
+            $add_result = $this->conn->query($add_sql);
 
-                if($add_result == TRUE){
+            if($add_result == TRUE){
+        
+                //set the opponent chat name
+                $add_opponent_sql = "INSERT INTO namings(user_id,opponent_id,chat_name)VALUES('$selected_user_id','$my_id','$my_name')";
+    
+                $add_opponent__result = $this->conn->query($add_opponent_sql);
+    
+                if($add_opponent_result == TRUE){
+
+                    //insert chat room
+                    $add_chat_sql = "INSERT INTO chat(chat_type)VALUES(1)";
+                    $add_chat_result = $this->conn->query($add_sql);
+
+                    if($add_chat_result == TRUE){
+
+                        //select chat_id
+                        $chat_row[] = $add_chat_result->fetch_assoc();
+                        $chat_id = $chat_row['chat_id'];
+                        // insert managw the chat
+                        $add_opponent_sql = "INSERT INTO chat_management(user_id,chat_id)VALUES('$my_id','$chat_id')";
+    
+                        $add_opponent_result = $this->conn->query($add_opponent_sql);
             
-                    $add_opponent_sql = "INSERT INTO namings(user_id,opponent_id,chat_name)VALUES('$selected_user_id','$my_id','$my_name')";
-        
-                    $add_opponent__result = $this->conn->query($add_opponent_sql);
-        
-                    if($add_opponent_result == TRUE){
-
-                        $add_chat_sql = "INSERT INTO chat(chat_type)VALUES(1)";
-                        $add_chat_result = $this->conn->query($add_sql);
-
-                        if($add_chat_result == TRUE){
-
-                            $add_opponent_sql = "INSERT INTO chat_management(user_id,chat_id)VALUES('$my_id','')";
-        
-                            $add_opponent__result = $this->conn->query($add_opponent_sql);
-                
-                            if($add_opponent_result == TRUE){
-                            }
+                        if($add_opponent_result == TRUE){
+                            print_r("ok");
                         }
                     }
                 }
-            }else {
-
             }
+            
         }
         
     }

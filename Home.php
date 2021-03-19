@@ -166,7 +166,7 @@ $my_data = $lib_obj->get_my_data($_SESSION['id']);
 
                 <div class="modal-body">
                   <div>
-                    <p>Chat name</p><input type="text" name="" neme="add_private_chat_name">
+                    <p>Chat name</p><input type="text" name="add-private-chat-name">
                   </div>
                   <br>
                   <p>Select user</p>
@@ -174,7 +174,7 @@ $my_data = $lib_obj->get_my_data($_SESSION['id']);
                     <?php if(isset($users_data)){ ?>
                     <?php  foreach($users_data as $row): ?>
                     <li class="list-group-item text-danger display-5" id="<?php echo $row['user_id'] ?>">
-                    <input type="radio" name="selected-user" value="<?php echo $row['user_id'] ?>">
+                    <input type="radio" name="selected-user-id" value="<?php echo $row['user_id'] ?>">
                       <a id="<?php echo $row['user_id'] ?>"><?php echo $row['user_name'] ?></a>
                     </li>
                     <?php endforeach; ?>

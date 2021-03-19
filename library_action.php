@@ -49,7 +49,7 @@ if(isset($_POST['user_select'])){
     $my_id = $_POST['my-id'];
     $my_name= $_POST['my-name'];
     $selected_user_id = $_POST['selected-user-id'];
-    $chat_name = $_POST['add_private_chat_name'];
+    $chat_name = $_POST['add-private-chat-name'];
     $lib_obj->private_member_add($my_id,$my_name,$selected_user_id,$chat_name);
 }
 
