@@ -16,7 +16,7 @@ if(isset($_SESSION['id'])){
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>MyResume Bootstrap Template - Index</title>
+  <title>Chat</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -56,11 +56,11 @@ if(isset($_SESSION['id'])){
 
     <nav class="nav-menu">
       <ul>
-        <li class="active"><a href="#hero"><i class="bx bx-home"></i> <span>Home</span></a></li>
-        <li><a href="#about"><i class="bx bx-user"></i> <span>Login/create account</span></a></li>
-        <li><a href="#resume"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
+        <li class="active"><a href="#hero"><i class="bx bx-home"></i> <span>Top</span></a></li>
+        <li><a href="#about"><i class="bx bx-user"></i> <span>Login / create account</span></a></li>
+        <!-- <li><a href="#resume"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
         <li><a href="#portfolio"><i class="bx bx-book-content"></i> <span>Portfolio</span></a></li>
-        <li><a href="#services"><i class="bx bx-server"></i> <span>Services</span></a></li>
+        <li><a href="#services"><i class="bx bx-server"></i> <span>Services</span></a></li> -->
         <li><a href="#contact"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
       </ul>
     </nav><!-- .nav-menu -->
@@ -70,14 +70,14 @@ if(isset($_SESSION['id'])){
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex flex-column justify-content-center">
     <div class="container" data-aos="zoom-in" data-aos-delay="100">
-      <h1>Brandon Johnson</h1>
+      <!-- <h1>Chat</h1>
       <p>I'm <span class="typed" data-typed-items="Designer, Developer, Freelancer, Photographer"></span></p>
       <div class="social-links">
         <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
         <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
         <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
         <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a> -->
       </div>
     </div>
   </section><!-- End Hero -->
@@ -217,7 +217,7 @@ if(isset($_SESSION['id'])){
     </section><!-- End Skills Section -->
 
     <!-- ======= Resume Section ======= -->
-    <section id="resume" class="resume">
+    <!-- <section id="resume" class="resume">
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
@@ -280,10 +280,11 @@ if(isset($_SESSION['id'])){
         </div>
 
       </div>
-    </section><!-- End Resume Section -->
+    </section> -->
+    <!-- End Resume Section -->
 
     <!-- ======= Portfolio Section ======= -->
-    <section id="portfolio" class="portfolio section-bg">
+    <!-- <section id="portfolio" class="portfolio section-bg">
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
@@ -433,10 +434,11 @@ if(isset($_SESSION['id'])){
         </div>
 
       </div>
-    </section><!-- End Portfolio Section -->
+    </section> -->
+    <!-- End Portfolio Section -->
 
     <!-- ======= Services Section ======= -->
-    <section id="services" class="services">
+    <!-- <section id="services" class="services">
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
@@ -527,10 +529,11 @@ if(isset($_SESSION['id'])){
         </div>
 
       </div>
-    </section><!-- End Services Section -->
+    </section -->
+    ><!-- End Services Section -->
 
     <!-- ======= Testimonials Section ======= -->
-    <section id="testimonials" class="testimonials section-bg">
+    <!-- <section id="testimonials" class="testimonials section-bg">
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
@@ -597,7 +600,8 @@ if(isset($_SESSION['id'])){
         </div>
 
       </div>
-    </section><!-- End Testimonials Section -->
+    </section> -->
+    <!-- End Testimonials Section -->
 
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">

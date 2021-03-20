@@ -134,14 +134,7 @@ class Library extends Database {
         }
     }
 
-    //max id user select
-    public function get_first_user(){
-
-        $sql = "SELECT * FROM users where user_id = (select max(user_id) from users group by user_id) ";
-    }
-
     //my data select
-
     public function get_my_data($my_id){
 
         $sql = "SELECT * FROM users WHERE user_id = '$my_id'";
@@ -163,10 +156,8 @@ class Library extends Database {
     //private member add
     public function private_member_add($my_id,$my_name,$selected_user_id,$temp_name = null){
 
-
         // opponent_user_name select
         $opponent_sql = "SELECT * FROM users WHERE user_id = '$selected_user_id'";
-
         $opponent_result = $this->conn->query($opponent_sql);
 
         if($opponent_result->num_rows > 0){
@@ -196,7 +187,6 @@ class Library extends Database {
         
                 //set the opponent chat name
                 $add_opponent_sql = "INSERT INTO namings(user_id,opponent_id,chat_name)VALUES('$selected_user_id','$my_id','$my_name')";
-    
                 $add_opponent_result = $this->conn->query($add_opponent_sql);
     
                 if($add_opponent_result == TRUE){
@@ -209,7 +199,6 @@ class Library extends Database {
 
                         //select chat_id
                         $chat_sql = "SELECT LAST_INSERT_ID() as cid";
-                        // $chat_sql = "SELECT MAX('chat_id') FROM chat";
                         $chat_result = $this->conn->query($chat_sql);
 
                         if($chat_result == TRUE){
@@ -228,7 +217,6 @@ class Library extends Database {
                                 
                                  // add opponent_id to chat management
                                 $opponent_chat_management_sql = "INSERT INTO chat_management(user_id,chat_id)VALUES('$selected_user_id','$chat_id')";
-            
                                 $opponent_chat_management_result = $this->conn->query($opponent_chat_management_sql);
                     
                                 if($opponent_chat_management_result == TRUE){
@@ -236,13 +224,88 @@ class Library extends Database {
                                 }
                             }
                         }
-                       
                     }
                 }
-            }
-            
+            }    
         }
+        header('location:./home.php');
+    }
+
+    //group member add
+    public function group_member_add($my_id,$my_name,$selected_user_id,$temp_name){
+
+        // opponent_user_name select
+        $opponent_sql = "SELECT * FROM users WHERE user_id = '$selected_user_id'";
+        $opponent_result = $this->conn->query($opponent_sql);
+
+        if($opponent_result->num_rows > 0){
+           
+            $oppo_row[] = $opponent_result->fetch_assoc();
+            $oppo_name = $oppo_row[0]['user_name'];
+        }
+
+        // Check private_member : already registered?
+        $select_sql = "SELECT user_id FROM namings WHERE user_id = '$my_id' AND opponent_id = '$selected_user_id'";
+        $select_result = $this->conn->query($select_sql);
+
+        if($select_result->num_rows == 0){
+
+            //If the chat name is not set, use the opponent name as the chat name
+            if($temp_name == null){
+                $chat_name = $oppo_name;
+            }else {
+                $chat_name = $temp_name;
+            }
+
+            //Set the my chat name
+            $add_sql = "INSERT INTO namings(user_id,opponent_id,chat_name)VALUES('$my_id','$selected_user_id','$chat_name')";
+            $add_result = $this->conn->query($add_sql);
+
+            if($add_result == TRUE){
         
+                //set the opponent chat name
+                $add_opponent_sql = "INSERT INTO namings(user_id,opponent_id,chat_name)VALUES('$selected_user_id','$my_id','$my_name')";
+                $add_opponent_result = $this->conn->query($add_opponent_sql);
+    
+                if($add_opponent_result == TRUE){
+
+                    //insert chat room
+                    $add_chat_sql = "INSERT INTO chat(chat_type)VALUES(1)";
+                    $add_chat_result = $this->conn->query($add_chat_sql);
+
+                    if($add_chat_result == TRUE){
+
+                        //select chat_id
+                        $chat_sql = "SELECT LAST_INSERT_ID() as cid";
+                        $chat_result = $this->conn->query($chat_sql);
+
+                        if($chat_result == TRUE){
+
+                            $chat_row[] = $chat_result->fetch_assoc();
+                            print_r($chat_row);
+                            $chat_id = $chat_row[0]['cid'];
+
+                            print_r($chat_id);
+                            // add my_id to chat management
+                            $my_chat_management_sql = "INSERT INTO chat_management(user_id,chat_id)VALUES('$my_id','$chat_id')";
+        
+                            $my_chat_management_result = $this->conn->query($my_chat_management_sql);
+                
+                            if($my_chat_management_result == TRUE){
+                                
+                                 // add opponent_id to chat management
+                                $opponent_chat_management_sql = "INSERT INTO chat_management(user_id,chat_id)VALUES('$selected_user_id','$chat_id')";
+                                $opponent_chat_management_result = $this->conn->query($opponent_chat_management_sql);
+                    
+                                if($opponent_chat_management_result == TRUE){
+                                    print_r("ok");
+                                }
+                            }
+                        }
+                    }
+                }
+            }    
+        }
         header('location:./home.php');
     }
 }

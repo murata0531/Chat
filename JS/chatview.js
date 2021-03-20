@@ -36,7 +36,7 @@ document.getElementById("send-button").onclick = function() {
 
 // user-list click
 
-function user_clic(e){
+function user_click(e){
     // let user_id = e.id;
     let title = document.getElementById('chat-header-title');
     title.innerHTML = e.textContent;

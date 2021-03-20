@@ -163,7 +163,6 @@ $my_data = $lib_obj->get_my_data($_SESSION['id']);
               <form method="post" action="./library_action.php">
                 <input type="hidden" name="my-id" value="<?php echo $my_data['user_id'] ?>">
                 <input type="hidden" name="my-name" value="<?php echo $my_data['user_name'] ?>">
-
                 <div class="modal-body">
                   <div>
                     <p>Chat name</p><input type="text" name="add-private-chat-name">
@@ -173,7 +172,7 @@ $my_data = $lib_obj->get_my_data($_SESSION['id']);
                   <ul class="list-group">
                     <?php if(isset($users_data)){ ?>
                     <?php  foreach($users_data as $row): ?>
-                    <li class="list-group-item text-danger display-5" id="<?php echo $row['user_id'] ?>">
+                    <li class="list-group-item display-5" id="<?php echo $row['user_id'] ?>">
                     <input type="radio" name="selected-user-id" value="<?php echo $row['user_id'] ?>">
                       <a id="<?php echo $row['user_id'] ?>"><?php echo $row['user_name'] ?></a>
                     </li>
@@ -184,7 +183,6 @@ $my_data = $lib_obj->get_my_data($_SESSION['id']);
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                   <button type="submit" class="btn btn-primary" name="user_select">Add</button>
-              
                 </div>
               </form>
             </div>
@@ -200,29 +198,31 @@ $my_data = $lib_obj->get_my_data($_SESSION['id']);
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
-                <div>
-                  <p>Chat name</p><input type="text" name="" neme="add_user_chat_name">
+              <form method="post" action="./library_action.php">
+                <input type="hidden" name="my-id" value="<?php echo $my_data['user_id'] ?>">
+                <input type="hidden" name="my-name" value="<?php echo $my_data['user_name'] ?>">
+                <div class="modal-body">
+                  <div>
+                    <p>Chat name</p><input type="text" name="" neme="add_group_chat_name" required>
+                  </div>
+                  <br>
+                  <p>Select users</p>
+                  <ul class="list-group">
+                    <?php if(isset($users_data)){ ?>
+                    <?php  foreach($users_data as $row): ?>
+                    <li class="list-group-item display-5" id="<?php echo $row['user_id'] ?>">
+                    <input type="checkbox" name="selected-user-id" value="<?php echo $row['user_id'] ?>">
+                      <a id="<?php echo $row['user_id'] ?>"><?php echo $row['user_name'] ?></a>
+                    </li>
+                    <?php endforeach; ?>
+                    <?php } ?>
+                  </ul>
                 </div>
-                <br>
-                <p>Select users</p>
-                <ul class="list-group">
-                  <?php if(isset($users_data)){ ?>
-                  <?php  foreach($users_data as $row): ?>
-                  <li class="list-group-item display-5" id="<?php echo $row['user_id'] ?>">
-                  <input type="checkbox" name="selected-user" value="<?php echo $row['user_id'] ?>">
-                    <a id="<?php echo $row['user_id'] ?>" onclick="user_clic(this)";><?php echo $row['user_name'] ?></a>
-                  </li>
-                  <?php endforeach; ?>
-                  <?php } ?>
-                </ul>
-              </div>
-              <div class="modal-footer">
-                <form method="post" action="./library_action.php">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn btn-primary" name="logout">Add</button>
-                </form>
-              </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" name="users_select">Add</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ include 'classes/Library.php';
 
 $lib_obj = new Library;
 
+//login
 if(isset($_POST['login'])){
 
     //debug complete
@@ -16,6 +17,7 @@ if(isset($_POST['login'])){
 
 }
 
+//user register
 if(isset($_POST['register'])){
     $user_name = $_POST['register-user-name'];
     $user_email = $_POST['register-user-email'];
@@ -27,23 +29,12 @@ if(isset($_POST['register'])){
 }
 
 
-//register is temp-complete
-
-
-if(isset($_POST['update-book'])){
-
-    $book_id = $_POST['book-id'];
-    $book_name = $_POST['book-name'];
-    $book_genre = $_POST['book-genre'];
-    $book_author = $_POST['book-author'];
-    $date_added = $_POST['book-date-added'];
-    $lib_obj->update_book($book_id,$book_name,$book_genre,$book_author,$date_added);
-}
-
+//logout
 if(isset($_POST['logout'])){
     $lib_obj->logout();
 }
 
+//private chat register
 if(isset($_POST['user_select'])){
 
     $my_id = $_POST['my-id'];
@@ -51,6 +42,16 @@ if(isset($_POST['user_select'])){
     $selected_user_id = $_POST['selected-user-id'];
     $chat_name = $_POST['add-private-chat-name'];
     $lib_obj->private_member_add($my_id,$my_name,$selected_user_id,$chat_name);
+}
+
+//group chat register
+if(isset($_POST['users_select'])){
+
+    $my_id = $_POST['my-id'];
+    $my_name= $_POST['my-name'];
+    $selected_user_id = $_POST['selected-user-id'];
+    $chat_name = $_POST['add-group-chat-name'];
+    $lib_obj->group_member_add($my_id,$my_name,$selected_user_id,$chat_name);
 }
 
 // if(isset($_POST['get_userid'])){
