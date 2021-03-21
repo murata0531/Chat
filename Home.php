@@ -2,9 +2,7 @@
 session_start();
 
 include 'library_action.php';
-// when redirect do'nt keep session
-//when registration: keep session ok
-//but when login:don't keep session
+
 if(!isset($_SESSION['id'])){
   header('location:./UI');
   exit();
@@ -15,6 +13,12 @@ $users_data = $lib_obj->get_users_data($_SESSION['id']);
 
 //me
 $my_data = $lib_obj->get_my_data($_SESSION['id']);
+
+// Private chat to which I belong.
+$private_chat = $lib_obj->get_my_private_chat($_SESSION['id']);
+
+// Group chat to which I belong.
+$group_chat = $lib_obj->get_my_group_chat($_SESSION['id']);
 
 // debug ok
 // if(isset($users_data)){
