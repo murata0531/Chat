@@ -18,7 +18,7 @@ $my_data = $lib_obj->get_my_data($_SESSION['id']);
 $private_chat = $lib_obj->get_my_private_chat($_SESSION['id']);
 
 // Group chat to which I belong.
-$group_chat = $lib_obj->get_my_group_chat($_SESSION['id']);
+// $group_chat = $lib_obj->get_my_group_chat($_SESSION['id']);
 
 // debug ok
 // if(isset($users_data)){
@@ -92,10 +92,10 @@ $group_chat = $lib_obj->get_my_group_chat($_SESSION['id']);
               <div id="collapse3" class="panel-collapse collapse in">
                 <div class="panel-body">
                   <ul class="list-group">
-                    <?php if(isset($users_data)){ ?>
-                    <?php  foreach($users_data as $row): ?>
+                    <?php if(isset($private_chat)){ ?>
+                    <?php  foreach($private_chat as $row): ?>
                     <li class="list-group-item text-danger display-5" id="<?php echo $row['user_id'] ?>">
-                      <a id="<?php echo $row['user_id'] ?>" onclick="user_click(this)";><?php echo $row['user_name'] ?></a>
+                      <a id="<?php echo $row['chat_id'] ?>" onclick="user_click(this)";><?php echo $row['chat_name'] ?></a>
                     </li>
                     <?php endforeach; ?>
                     <?php } ?>

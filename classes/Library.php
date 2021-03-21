@@ -118,11 +118,12 @@ class Library extends Database {
 
         $sql = "SELECT * FROM users WHERE user_id <> '$get_id'";
 
-        // $sql = "SELECT * FROM users WHERE user_email = '$email' AND user_password = '$pass_hash'";
         $result = $this->conn->query($sql);
 
         if($result->num_rows > 0){
+
             $return_container = array();
+            
             while($row = $result->fetch_assoc()){
                 $return_container[] = $row;
             }
@@ -227,7 +228,7 @@ class Library extends Database {
                 }
             }
         }
-        
+
         header('location:./home.php');
     }
 
@@ -312,14 +313,17 @@ class Library extends Database {
     // Private chat to which I belong.
     public function get_my_private_chat($my_id){
 
-        $sql = "SELECT * FROM users WHERE user_id = '$my_id'";
+        $sql = "SELECT * FROM namings WHERE user_id = '$my_id'";
 
         $result = $this->conn->query($sql);
 
         if($result->num_rows > 0){
-            $return_container;
-            $return_container = $result->fetch_assoc();
-            
+
+            $return_container = array();
+
+            while($row = $result->fetch_assoc()){
+                $return_container[] = $row;
+            }
 
             return $return_container;
 
