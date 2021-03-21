@@ -222,13 +222,12 @@ class Library extends Database {
                                     print_r("ok");
                                 }
                             }
-                        }//
+                        }
                     }
                 }
             }
-                
-        
         }
+        
         header('location:./home.php');
     }
 
