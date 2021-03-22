@@ -49,7 +49,14 @@ if(isset($_POST['users_select'])){
 
     $my_id = $_POST['my-id'];
     $my_name= $_POST['my-name'];
-    $selected_user_id = $_POST['selected-user-id'];
+
+    //if not selected user : "nothing"
+    if(isset($_POST['selected-user-id'])){
+        $selected_user_id = $_POST['selected-user-id'];
+    }else {
+        $selected_user_id = "nothing";
+    }
+    
     $chat_name = $_POST['add-group-chat-name'];
     $lib_obj->group_member_add($my_id,$my_name,$selected_user_id,$chat_name);
 }

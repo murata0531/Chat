@@ -18,14 +18,7 @@ $my_data = $lib_obj->get_my_data($_SESSION['id']);
 $private_chat = $lib_obj->get_my_private_chat($_SESSION['id']);
 
 // Group chat to which I belong.
-// $group_chat = $lib_obj->get_my_group_chat($_SESSION['id']);
-
-// debug ok
-// if(isset($users_data)){
-//   print_r($users_data);
-// }else {
-//   print_r("not data");
-// }
+$group_chat = $lib_obj->get_my_group_chat($_SESSION['id']);
 
 // $first_user = $lib_obj->get_first_user();
 
@@ -93,7 +86,7 @@ $private_chat = $lib_obj->get_my_private_chat($_SESSION['id']);
                 <div class="panel-body">
                   <ul class="list-group">
                     <?php if(isset($private_chat)){ ?>
-                    <?php  foreach($private_chat as $row): ?>
+                    <?php  foreach((array)$private_chat as $row): ?>
                     <li class="list-group-item text-danger display-5" id="<?php echo $row['user_id'] ?>">
                       <a id="<?php echo $row['chat_id'] ?>" onclick="user_click(this)";><?php echo $row['chat_name'] ?></a>
                     </li>
@@ -112,10 +105,10 @@ $private_chat = $lib_obj->get_my_private_chat($_SESSION['id']);
               <div id="collapse4" class="panel-collapse collapse">
                 <div class="panel-body">
                   <ul class="list-group">
-                    <?php if(isset($users_data)){ ?>
-                    <?php  foreach($users_data as $row): ?>
-                    <li class="list-group-item text-danger display-5" id="<?php echo $row['user_id'] ?>">
-                      <a id="<?php echo $row['user_id'] ?>" onclick="user_click(this)";><?php echo $row['user_name'] ?></a>
+                    <?php if(isset($group_chat)){ ?>
+                    <?php  foreach((array)$group_chat as $row): ?>
+                    <li class="list-group-item text-danger display-5" id="<?php echo $row['chat_id'] ?>">
+                      <a id="<?php echo $row['chat_id'] ?>" onclick="user_click(this)";><?php echo $row['chat_name'] ?></a>
                     </li>
                     <?php endforeach; ?>
                     <?php } ?>
@@ -169,15 +162,15 @@ $private_chat = $lib_obj->get_my_private_chat($_SESSION['id']);
                 <input type="hidden" name="my-name" value="<?php echo $my_data['user_name'] ?>">
                 <div class="modal-body">
                   <div>
-                    <p>Chat name</p><input type="text" name="add-private-chat-name">
+                    <p>Chat name(Option)</p><input type="text" name="add-private-chat-name">
                   </div>
                   <br>
-                  <p>Select user</p>
+                  <p>Select user(Required)</p>
                   <ul class="list-group">
                     <?php if(isset($users_data)){ ?>
                     <?php  foreach($users_data as $row): ?>
                     <li class="list-group-item display-5" id="<?php echo $row['user_id'] ?>">
-                    <input type="radio" name="selected-user-id" value="<?php echo $row['user_id'] ?>">
+                    <input type="radio" name="selected-user-id" value="<?php echo $row['user_id'] ?>" required>
                       <a id="<?php echo $row['user_id'] ?>"><?php echo $row['user_name'] ?></a>
                     </li>
                     <?php endforeach; ?>
@@ -207,15 +200,15 @@ $private_chat = $lib_obj->get_my_private_chat($_SESSION['id']);
                 <input type="hidden" name="my-name" value="<?php echo $my_data['user_name'] ?>">
                 <div class="modal-body">
                   <div>
-                    <p>Chat name</p><input type="text" name="" neme="add_group_chat_name" required>
+                    <p>Chat name(Option)</p><input type="text" name="add-group-chat-name" required>
                   </div>
                   <br>
-                  <p>Select users</p>
+                  <p>Select users(Required)</p>
                   <ul class="list-group">
                     <?php if(isset($users_data)){ ?>
                     <?php  foreach($users_data as $row): ?>
                     <li class="list-group-item display-5" id="<?php echo $row['user_id'] ?>">
-                    <input type="checkbox" name="selected-user-id" value="<?php echo $row['user_id'] ?>">
+                    <input type="checkbox" name="selected-user-id[]" value="<?php echo $row['user_id'] ?>">
                       <a id="<?php echo $row['user_id'] ?>"><?php echo $row['user_name'] ?></a>
                     </li>
                     <?php endforeach; ?>
@@ -234,7 +227,7 @@ $private_chat = $lib_obj->get_my_private_chat($_SESSION['id']);
         <div class="main w-75 start-25 position-relative d-flex flex-column">
           <!-- chat header -->
           <div class="chat-header position-relative start-25 w-100 m-0 d-flex flex row justify-content-center align-items-center" style="background-color:#C0C0C0;">
-            <h1 class="chat-header-title" id="chat-header-title"></h1>
+            <h1 class="chat-header-title" id=""></h1>
           </div>
           <!-- chat body -->
           <div class="chat-body position-relative d-flex flex-column" id="output">
@@ -244,7 +237,7 @@ $private_chat = $lib_obj->get_my_private_chat($_SESSION['id']);
             <!-- opponentmessage -->
             <div class="opponent-message d-flex flex-column position-relative w-100 mt-5 bg-primary h-auto">
               <div class="d-flex flex-row position-relative m-3">
-                <img src="" class="opponent-message-icon">
+                <img src="./images/icon_default.png" class="opponent-message-icon">
                 <p class="position-relative m-3 ml-5">2021/01/01 22:44</p>
               </div>
               <p class=" opponent-message-text w-50 text-center bg-white position-relative m-3 p-3 rounded-lg">message</p>
@@ -300,11 +293,6 @@ $private_chat = $lib_obj->get_my_private_chat($_SESSION['id']);
 
     <script>
       $(function() {
-
-        
-        let setTitle = document.getElementById('chat-header-title');
-        setTitle.innerHTML = id.textContent;
-        alert(id);
 
         const database = firebase.database();
 

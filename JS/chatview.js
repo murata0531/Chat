@@ -38,8 +38,9 @@ document.getElementById("send-button").onclick = function() {
 
 function user_click(e){
     // let user_id = e.id;
-    let title = document.getElementById('chat-header-title');
-    title.innerHTML = e.textContent;
+    let title = document.getElementsByClassName('chat-header-title');
+    title[0].id = e.id;
+    title[0].innerHTML = e.textContent;
 }
 
 

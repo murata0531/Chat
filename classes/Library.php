@@ -123,7 +123,7 @@ class Library extends Database {
         if($result->num_rows > 0){
 
             $return_container = array();
-            
+
             while($row = $result->fetch_assoc()){
                 $return_container[] = $row;
             }
@@ -233,69 +233,46 @@ class Library extends Database {
     }
 
     //group member add
-    public function group_member_add($my_id,$my_name,$selected_user_id,$temp_name){
+    public function group_member_add($my_id,$my_name,$selected_user_id,$chat_name){
 
-        // opponent_user_name select
-        $opponent_sql = "SELECT * FROM users WHERE user_id = '$selected_user_id'";
-        $opponent_result = $this->conn->query($opponent_sql);
+        // if not selected user
+        if($selected_user_id == 'nothing'){
 
-        if($opponent_result->num_rows > 0){
-           
-            $oppo_row[] = $opponent_result->fetch_assoc();
-            $oppo_name = $oppo_row[0]['user_name'];
-        }
+        }else {
+            //insert chat room
+            $add_chat_sql = "INSERT INTO chat(chat_type)VALUES(0)";
+            $add_chat_result = $this->conn->query($add_chat_sql);
 
-        // Check private_member : already registered?
-        $select_sql = "SELECT user_id FROM namings WHERE user_id = '$my_id' AND opponent_id = '$selected_user_id'";
-        $select_result = $this->conn->query($select_sql);
+            if($add_chat_result == TRUE){
 
-        if($select_result->num_rows == 0){
+                //select chat_id
+                $chat_sql = "SELECT LAST_INSERT_ID() as cid";
+                $chat_result = $this->conn->query($chat_sql);
 
-            //If the chat name is not set, use the opponent name as the chat name
-            if($temp_name == null){
-                $chat_name = $oppo_name;
-            }else {
-                $chat_name = $temp_name;
-            }
+                if($chat_result == TRUE){
 
-            //Set the my chat name
-            $add_sql = "INSERT INTO namings(user_id,opponent_id,chat_name)VALUES('$my_id','$selected_user_id','$chat_name')";
-            $add_result = $this->conn->query($add_sql);
+                    $chat_row[] = $chat_result->fetch_assoc();
+                    $chat_id = $chat_row[0]['cid'];
 
-            if($add_result == TRUE){
+                    // add my_id to chat management
+                    $my_chat_management_sql = "INSERT INTO chat_management(user_id,chat_id)VALUES('$my_id','$chat_id')";
+
+                    $my_chat_management_result = $this->conn->query($my_chat_management_sql);
         
-                //set the opponent chat name
-                $add_opponent_sql = "INSERT INTO namings(user_id,opponent_id,chat_name)VALUES('$selected_user_id','$my_id','$my_name')";
-                $add_opponent_result = $this->conn->query($add_opponent_sql);
-    
-                if($add_opponent_result == TRUE){
+                    if($my_chat_management_result == TRUE){
+                        
+                        //Set the group chat name
+                        $add_sql = "INSERT INTO group_namings(chat_name,chat_id)VALUES('$chat_name','$chat_id')";
+                        $add_result = $this->conn->query($add_sql);
 
-                    //insert chat room
-                    $add_chat_sql = "INSERT INTO chat(chat_type)VALUES(1)";
-                    $add_chat_result = $this->conn->query($add_chat_sql);
+                        if($add_result == TRUE){
+                    
+                            // add opponent_id to chat management
+                            for($i = 0; $i < count($selected_user_id); $i++){
 
-                    if($add_chat_result == TRUE){
+                                $tmp_user_id = $selected_user_id[$i];
 
-                        //select chat_id
-                        $chat_sql = "SELECT LAST_INSERT_ID() as cid";
-                        $chat_result = $this->conn->query($chat_sql);
-
-                        if($chat_result == TRUE){
-
-                            $chat_row[] = $chat_result->fetch_assoc();
-                            print_r($chat_row);
-                            $chat_id = $chat_row[0]['cid'];
-
-                            print_r($chat_id);
-                            // add my_id to chat management
-                            $my_chat_management_sql = "INSERT INTO chat_management(user_id,chat_id)VALUES('$my_id','$chat_id')";
-        
-                            $my_chat_management_result = $this->conn->query($my_chat_management_sql);
-                
-                            if($my_chat_management_result == TRUE){
-                                
-                                 // add opponent_id to chat management
-                                $opponent_chat_management_sql = "INSERT INTO chat_management(user_id,chat_id)VALUES('$selected_user_id','$chat_id')";
+                                $opponent_chat_management_sql = "INSERT INTO chat_management(user_id,chat_id)VALUES('$tmp_user_id','$chat_id')";
                                 $opponent_chat_management_result = $this->conn->query($opponent_chat_management_sql);
                     
                                 if($opponent_chat_management_result == TRUE){
@@ -305,8 +282,9 @@ class Library extends Database {
                         }
                     }
                 }
-            }    
+            }
         }
+
         header('location:./home.php');
     }
 
@@ -314,6 +292,34 @@ class Library extends Database {
     public function get_my_private_chat($my_id){
 
         $sql = "SELECT * FROM namings WHERE user_id = '$my_id'";
+
+        $result = $this->conn->query($sql);
+
+        if($result->num_rows > 0){
+
+            $return_container = array();
+
+            while($row = $result->fetch_assoc()){
+                $return_container[] = $row;
+            }
+
+            return $return_container;
+
+        }else {
+            return FALSE;
+        }
+    }
+
+    // Group chat to which I belong.
+    //chat_id, chat_name
+    public function get_my_group_chat($my_id){
+
+        $sql = "SELECT group_namings.chat_id,group_namings.chat_name
+                FROM chat,chat_management,group_namings 
+                WHERE chat.chat_id = chat_management.chat_id AND chat_management.chat_id = group_namings.chat_id
+                    AND chat_management.user_id = '$my_id'
+                    AND chat.chat_type = 0
+                ";
 
         $result = $this->conn->query($sql);
 
