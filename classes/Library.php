@@ -337,6 +337,52 @@ class Library extends Database {
             return FALSE;
         }
     }
+
+    //top chat data
+    //chat_id,chat,name
+    public function get_top_chat($my_id){
+
+        $sql = "SELECT chat_id,chat_type,MAX(last_modify) from chat GROUP BY chat_id LIMIT 1";
+
+
+        $result = $this->conn->query($sql);
+
+        if($result->num_rows > 0){
+
+            $row = $result->fetch_assoc();
+
+            //if:0 ->group / 1 -> private
+            if($row['chat_type'] == 0){
+
+                $group_id = $row['chat_id'];
+                $group_sql = "SELECT chat_id,chat_name FROM group_namings WHERE chat_id = '$group_id'";
+                $group_result = $this->conn->query($group_sql);
+
+                if($group_result == TRUE){
+
+                    $group_row = $group_result->fetch_assoc();
+                    $return_container = $group_row;
+                }
+
+            }else if($row['chat_type'] == 1){
+
+                $private_id = $row['chat_id'];
+                $private_sql = "SELECT chat_id,chat_name FROM namings WHERE chat_id = '$private_id' AND user_id = $my_id";
+                $private_result = $this->conn->query($private_sql);
+
+                if($private_result == TRUE){
+
+                    $private_row = $group_result->fetch_assoc();
+                    $return_container = $private_row;
+                }
+            }
+
+            return $return_container;
+
+        }else {
+            return FALSE;
+        }
+    }
 }
 
 ?>

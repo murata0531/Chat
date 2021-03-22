@@ -20,12 +20,17 @@ $private_chat = $lib_obj->get_my_private_chat($_SESSION['id']);
 // Group chat to which I belong.
 $group_chat = $lib_obj->get_my_group_chat($_SESSION['id']);
 
-// $first_user = $lib_obj->get_first_user();
+// When first page load,show this chat
+$top_chat_data = $lib_obj->get_top_chat($_SESSION['id']);
 
-// if(!issset($first_user)){
-//   $first_user = " ";
-// }
-
+//if not topdata: in nothing message
+if(!isset($top_chat_data)){
+  $top_data_id = 0;
+  $top_data_name = "nothing chat";
+}else {
+  $top_data_id = $top_chat_data['chat_id'];
+  $top_data_name = $top_chat_data['chat_name'];
+}
 ?>
 
 <!doctype html>
@@ -46,7 +51,11 @@ $group_chat = $lib_obj->get_my_group_chat($_SESSION['id']);
 
     <!-- php to javascript transfer valiable -->
     <script>
+
         const id = <?php echo json_encode($_SESSION['id']); ?>;
+        const first_chat_id = <?php echo $top_data_id ?>
+        const first_chat_name = <?php echo $top_data_name; ?>
+
     </script>
   </head>
   <body>
@@ -227,7 +236,7 @@ $group_chat = $lib_obj->get_my_group_chat($_SESSION['id']);
         <div class="main w-75 start-25 position-relative d-flex flex-column">
           <!-- chat header -->
           <div class="chat-header position-relative start-25 w-100 m-0 d-flex flex row justify-content-center align-items-center" style="background-color:#C0C0C0;">
-            <h1 class="chat-header-title" id=""></h1>
+            <h1 class="chat-header-title" id="<?php echo $top_data_id; ?>"><?php echo $top_data_name; ?></h1>
           </div>
           <!-- chat body -->
           <div class="chat-body position-relative d-flex flex-column" id="output">
