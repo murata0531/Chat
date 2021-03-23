@@ -40,6 +40,11 @@ class Library extends Database {
                     if($complete_result->num_rows > 0){
                         $row = $complete_result->fetch_assoc();
                         $_SESSION['id'] = $row['user_id'];
+                        $_SESSION['icon'] = $row['user_icon'];
+                        $_SESSION['name'] = $row['user_name'];
+                        if(isset($_SESSION['id'])){
+                            header('location:./Home.php');
+                        }
                     }
                 }
             }else {
@@ -76,6 +81,9 @@ class Library extends Database {
         if(empty($error)){
 
             $_SESSION['id'] = $row['user_id'];
+            $_SESSION['icon'] = $row['user_icon'];
+            $_SESSION['name'] = $row['user_name'];
+
             if(isset($_SESSION['id'])){
                 header('location:./Home.php');
             }
@@ -106,9 +114,18 @@ class Library extends Database {
     // loout
     public function logout(){
 
+        if(isset($_SESSION['name'])){
+            unset($_SESIION['name']);
+        }
+
+        if(isset($_SESSION['icon'])){
+            unset($_SESIION['icon']);
+        }
+
         if(isset($_SESSION['id'])){
             unset($_SESIION['id']);
-        }        
+        }
+
         header('location:./UI');
         exit();
     }
@@ -342,12 +359,16 @@ class Library extends Database {
     //chat_id,chat,name
     public function get_top_chat($my_id){
 
-        $sql = "SELECT chat_id,chat_type,MAX(last_modify) from chat GROUP BY chat_id LIMIT 1";
+        $sql = "SELECT chat_id,chat_type,MAX(last_modify)
+                from chat,chat_management 
+                WHERE chat.chat_id = chat_management.chat_id
+                AND chat_management.user_id = '$my_id'
+                GROUP BY chat_id LIMIT 1";
 
 
         $result = $this->conn->query($sql);
 
-        if($result->num_rows > 0){
+        if($result == TRUE){
 
             $row = $result->fetch_assoc();
 
@@ -380,7 +401,7 @@ class Library extends Database {
             return $return_container;
 
         }else {
-            return FALSE;
+            return "nothing";
         }
     }
 }

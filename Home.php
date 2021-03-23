@@ -23,14 +23,15 @@ $group_chat = $lib_obj->get_my_group_chat($_SESSION['id']);
 // When first page load,show this chat
 $top_chat_data = $lib_obj->get_top_chat($_SESSION['id']);
 
-//if not topdata: in nothing message
-if(!isset($top_chat_data)){
+//if not top_data: in nothing message
+if($top_chat_data == "nothing"){
   $top_data_id = 0;
   $top_data_name = "nothing chat";
 }else {
   $top_data_id = $top_chat_data['chat_id'];
   $top_data_name = $top_chat_data['chat_name'];
 }
+
 ?>
 
 <!doctype html>
@@ -49,14 +50,6 @@ if(!isset($top_chat_data)){
     <!-- fontawsome -->
     <link href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" rel="stylesheet">
 
-    <!-- php to javascript transfer valiable -->
-    <script>
-
-        const id = <?php echo json_encode($_SESSION['id']); ?>;
-        const first_chat_id = <?php echo $top_data_id ?>
-        const first_chat_name = <?php echo $top_data_name; ?>
-
-    </script>
   </head>
   <body>
       
@@ -236,7 +229,7 @@ if(!isset($top_chat_data)){
         <div class="main w-75 start-25 position-relative d-flex flex-column">
           <!-- chat header -->
           <div class="chat-header position-relative start-25 w-100 m-0 d-flex flex row justify-content-center align-items-center" style="background-color:#C0C0C0;">
-            <h1 class="chat-header-title" id="<?php echo $top_data_id; ?>"><?php echo $top_data_name; ?></h1>
+            <h1 class="chat-header-title" id="<?php echo $top_data_id ?>"><?php echo $top_data_name ?></h1>
           </div>
           <!-- chat body -->
           <div class="chat-body position-relative d-flex flex-column" id="output">
@@ -265,14 +258,14 @@ if(!isset($top_chat_data)){
           </div>
           <div class="send-area position-relative w-100 d-flex flex-column border-top">
             <!-- messagetext -->
-            <textarea class="w-100 h-50 send-text position-relative" id="send-text">abc</textarea>
+            <textarea class="w-100 h-50 send-text position-relative" id="send-text" onKeyUp="sendtextCahnge(this);"></textarea>
             <!-- button and file area -->
             <div class="d-flex flex-row w-100 h-50 position-relative">
               <div class="h-100 w-75">
                 <label for="send-file" id="avatar"><input id="send-file" type="file" accept="image/*"><i class="fas fa-image"></i></label>
               </div>
               <!-- send button -->
-              <button type="button" class="btn w-25 h-100 bg-primary text-white send-button position-relative" id="send-button"><i class="fas fa-paper-plane fa-2x"></i></button>
+              <button type="button" class="btn w-25 h-100 text-white send-button position-relative" id="send-button" disabled style="background-color:gray;"><i class="fas fa-paper-plane fa-2x"></i></button>
       
             </div>
           </div>
@@ -298,12 +291,24 @@ if(!isset($top_chat_data)){
     <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-storage.js"></script>
     <script src="./api/firebaseapi.js"></script>
 
+    <!-- php to javascript transfer valiable -->
+    <script>
+      const my_id = <?php echo $_SESSION['id'] ?>;
+      const my_icon = '<?php echo $_SESSION['icon'] ?>';
+      const my_name = '<?php echo $_SESSION['name'] ?>';
+    </script>
+
     <script src="./JS/chatview.js"></script>
 
     <script>
+
+      
       $(function() {
 
-        const database = firebase.database();
+        let title = document.getElementsByClassName('chat-header-title');
+    
+        
+        let database = firebase.database();
 
         axios.get('http://localhost/Chat/api/Read.php', {
             params: {
@@ -360,8 +365,8 @@ if(!isset($top_chat_data)){
         .catch(function(error){
           alert(error);
         });
-    });
+      });
 
-</script>
+    </script>
   </body>
 </html>
