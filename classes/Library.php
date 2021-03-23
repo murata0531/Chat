@@ -359,11 +359,11 @@ class Library extends Database {
     //chat_id,chat,name
     public function get_top_chat($my_id){
 
-        $sql = "SELECT chat_id,chat_type,MAX(last_modify)
+        $sql = "SELECT chat.chat_id,chat.chat_type,MAX(last_modify)
                 from chat,chat_management 
                 WHERE chat.chat_id = chat_management.chat_id
                 AND chat_management.user_id = '$my_id'
-                GROUP BY chat_id LIMIT 1";
+                GROUP BY chat.chat_id LIMIT 1";
 
 
         $result = $this->conn->query($sql);
@@ -388,7 +388,7 @@ class Library extends Database {
             }else if($row['chat_type'] == 1){
 
                 $private_id = $row['chat_id'];
-                $private_sql = "SELECT chat_id,chat_name FROM namings WHERE chat_id = '$private_id' AND user_id = $my_id";
+                $private_sql = "SELECT chat_id,chat_name FROM namings WHERE chat_id = '$private_id' AND user_id = '$my_id'";
                 $private_result = $this->conn->query($private_sql);
 
                 if($private_result == TRUE){
