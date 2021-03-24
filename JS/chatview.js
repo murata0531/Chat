@@ -11,29 +11,29 @@ document.getElementById("send-button").onclick = function() {
     let room_id = title[0].id;
     let now = new Date();
 
-    database.ref(room_id).push({
-        uid: my_id,
-        icon: my_icon,
-        name: my_name,
-        message: send_text.value,
-        isfile: 'nothing',
-        date: now.getFullYear() + '/' + eval(now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getHours() + ':' + now.getMinutes()
+    let params = new URLSearchParams();
+    params.append('post_user_id',my_id);
+    params.append('post_chat_id',room_id);
+    params.append('post_message',send_text.value);
+    params.append('post_isfile',send_image);
+
+    axios.post('http://localhost/Chat/api/Write.php',params)
+    .then(res => {
+
+        alert(res.data);
+    })
+    .catch(error => {
+        alert("error");
     });
-    alert("d");
-
-    // axios.post('http://localhost/Chat/api/Write.php', {
-            
-    //     posttest:id,
-        
-    // })
-    // .then(function (response) {
-    //     alert(output);
-
-    //     output.innerHTML = "<div>a</div>";
-    // })
-    // .catch(function(error){
-    //     alert(error);
+    // database.ref(room_id).push({
+    //     uid: my_id,
+    //     icon: my_icon,
+    //     name: my_name,
+    //     message: send_text.value,
+    //     isfile: 'nothing',
+    //     date: now.getFullYear() + '/' + eval(now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getHours() + ':' + now.getMinutes()
     // });
+
 }
 
 // user-list click
