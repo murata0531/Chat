@@ -22,6 +22,7 @@ if(isset($_POST['post_user_id']) && isset($_POST['post_chat_id'])) {
     }
 
     $result;
+    $result_value;
 
     try {
         // connect DB
@@ -63,14 +64,20 @@ if(isset($_POST['post_user_id']) && isset($_POST['post_chat_id'])) {
         }
     
         // execute query
-        $stmt->execute();
-
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        if(empty($result)){
-            $result = "bad";
-        }else {
+        if($stmt->execute()){
+        
             $result = "ok";
+            $insert_id = $pdo->lastInsertId();
+            $select_sql = "SELECT * FROM message_logs WHERE log_id = '$insert_id'";
+
+            $stmt = $pdo->query($select_sql);
+
+            $result_value = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+        }else {
+            $result = "bad";
+            $result_value = "no data";
         }
         
         // disconnect
@@ -82,7 +89,7 @@ if(isset($_POST['post_user_id']) && isset($_POST['post_chat_id'])) {
         die();
     }
 
-    echo json_encode(['result' => $result]);
+    echo json_encode(['result' => $result,'result_value' => $result_value]);
 
 }
 ?>

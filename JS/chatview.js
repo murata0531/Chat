@@ -18,21 +18,23 @@ document.getElementById("send-button").onclick = function() {
     params.append('post_isfile',send_image);
 
     axios.post('http://localhost/Chat/api/Write.php',params)
-    .then(res => {
+    .then(response => {
 
-        alert(res.data);
+        if(response.data.result == "ok"){
+            database.ref(room_id).push({
+                uid: my_id,
+                icon: my_icon,
+                name: my_name,
+                message: send_text.value,
+                isfile: 'nothing',
+                senddate: response.data.result_value[0].date,
+            });
+        }
     })
     .catch(error => {
         alert("error");
     });
-    // database.ref(room_id).push({
-    //     uid: my_id,
-    //     icon: my_icon,
-    //     name: my_name,
-    //     message: send_text.value,
-    //     isfile: 'nothing',
-    //     date: now.getFullYear() + '/' + eval(now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getHours() + ':' + now.getMinutes()
-    // });
+    
 
 }
 
