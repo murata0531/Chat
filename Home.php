@@ -261,8 +261,8 @@ if($top_chat_data == "nothing"){
             <textarea class="w-100 h-50 send-text position-relative" id="send-text" onKeyUp="sendtextCahnge(this);"></textarea>
             <!-- button and file area -->
             <div class="d-flex flex-row w-100 h-50 position-relative">
-              <div class="h-100 w-75">
-                <label for="send-file" id="avatar"><input id="send-file" type="file" accept="image/*"><i class="fas fa-image"></i></label>
+              <div class="h-100 w-75 d-flex flex-row justify-content-center align-items-center">
+                <label for="send-file" id="avatar"><input id="send-file" type="file" accept="image/*" onchange="sendfilechange(this);"><i class="fas fa-image fa-3x"></i></label>
               </div>
               <!-- send button -->
               <button type="button" class="btn w-25 h-100 text-white send-button position-relative" id="send-button" disabled style="background-color:gray;"><i class="fas fa-paper-plane fa-2x"></i></button>
@@ -296,6 +296,7 @@ if($top_chat_data == "nothing"){
       const my_id = <?php echo $_SESSION['id'] ?>;
       const my_icon = '<?php echo $_SESSION['icon'] ?>';
       const my_name = '<?php echo $_SESSION['name'] ?>';
+      const database = firebase.database();
     </script>
 
     <script src="./JS/chatview.js"></script>
@@ -306,65 +307,83 @@ if($top_chat_data == "nothing"){
       $(function() {
 
         let title = document.getElementsByClassName('chat-header-title');
-    
         
-        let database = firebase.database();
+        let pathReference = firebase.storage().ref();
+        let room_id = title[0].id;
+        let prevTask = Promise.resolve();
+        let output = document.getElementById('output');
 
-        axios.get('http://localhost/Chat/api/Read.php', {
-            params: {
-              //query string
-              userid:id,
-            }
-        })
-        .then(function (response) {
-            // let user_data = response.data();
-            
-            let prevTask = Promise.resolve();
-
-            //read data
-            // database.ref(1).on("child_added", (data) => {
-            //     prevTask = prevTask.finally(async () => {
-            //         const v = data.val();
-            //         const k = data.key;
-
-            
-            //     }).catch(function (error) {
-
-            //         // A full list of error codes is available at
-            //         // https://firebase.google.com/docs/storage/web/handle-errors
-            //         switch (error.code) {
-            //             case 'storage/object-not-found':
-            //                 alert('File doesn\'t exist');
-            //                 break;
-
-            //             case 'storage/unauthorized':
-            //                 alert('User doesn\'t have permission to access the object');
-            //                 break;
-
-            //             case 'storage/canceled':
-            //                 alert('User canceled the upload');
-            //                 break;
+        //Talk room initialization
+        while(output.firstChild ){
+            output.removeChild(output.firstChild );
+        }
 
 
-            //             case 'storage/unknown':
-            //                 alert('Unknown error occurred, inspect the server response');
-            //                 break;
-            //         }
-            //     });
-            // })
-            // .catch(function (error) {
-            //     // handle error
-            //     console.log(error);
-            // })
-            // .finally(function () {
-            //     // always executed
-            // });
+        database.ref("users/" + room_id).on("child_added", (data) => {
+          prevTask = prevTask.finally(async () => {
+              const v = data.val();
+              const k = data.key;
+              let str = '';
 
-            //
-        })
-        .catch(function(error){
-          alert(error);
+              // load message
+              if(v.uid == my_id && v.emessage == "yes"){
+
+                str += '<div class="my-message d-flex flex-column position-relative w-100 mt-5 bg-danger auto">';
+                str += '<div class="d-flex flex-row position-relative m-3">';
+                str += '<p class="my-message-date position-relative m-3">' + v.senddate + '</p>';
+                str += '<img src="' + v.icon + '" class="my-message-icon ml-3 position-absolute"></div>';
+                str += '<p class="my-message-text w-50 text-center bg-white position-relative m-3 p-3 rounded-lg">' + v.message + '</p></div>';
+                output.innerHTML += str;
+                
+              }else if(v.uid != my_id && v.emessage == "yes") {
+
+                let str='';
+
+                str += '<div class="opponent-message d-flex flex-column position-relative w-100 mt-5 bg-primary h-auto">';
+                str += '<div class="d-flex flex-row position-relative m-3">';
+                str += '<p class="my-message-date position-relative m-3">' + v.senddate + '</p>'
+                str += '<img src="' + v.icon + '" class="my-message-icon ml-3 position-absolute"></div>';
+                str += '<p class="my-message-text w-50 text-center bg-white position-relative m-3 p-3 rounded-lg">' + v.message + '</p>';                
+                
+                output.innerHTML += str;
+
+              }
+              
+              // load file
+              if(v.efile == "yes"){
+
+                await pathReference.child(v.isfile).getDownloadURL().then(function (url) {
+
+                  if(v.uid == my_id){
+
+                    let str='';
+
+                    str += '<div class="my-message d-flex flex-column position-relative w-100 mt-5 bg-danger auto">';
+                    str += '<div class="d-flex flex-row position-relative m-3">';
+                    str += '<p class="my-message-date position-relative m-3">' + v.senddate + '</p>';
+                    str += '<img src="' + v.icon + '" class="my-message-icon ml-3 position-absolute"></div>';
+                    str += '<p class="my-message-text w-50 text-center bg-white position-relative m-3 p-3 rounded-lg"><a href=' + url + '><img id="file-message" src=' + url + ' target="_blank" rel="noopener noreferrer"></a></p></div>';
+                
+                    output.innerHTML += str;
+
+                  }else if(v.uid != my_id) {
+
+                    let str='';
+
+                    str += '<div class="opponent-message d-flex flex-column position-relative w-100 mt-5 bg-primary h-auto">';
+                    str += '<div class="d-flex flex-row position-relative m-3">';
+                    str += '<p class="my-message-date position-relative m-3">' + v.senddate + '</p>'
+                    str += '<img src="' + v.icon + '" class="my-message-icon ml-3 position-absolute"></div>';
+                    str += '<p class="my-message-text w-50 text-center bg-white position-relative m-3 p-3 rounded-lg"><a href=' + url + '><img id="file-message" src=' + url + ' target="_blank" rel="noopener noreferrer"></a></p></div>';
+                    
+                    output.innerHTML += str;
+                  }
+                });
+              }
+            });
         });
+        
+
       });
 
     </script>

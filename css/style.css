@@ -44,9 +44,8 @@
 
 .chat-body {
     
-    height:calc(100vh - 300px);
+    height:100%;
     overflow:scroll;
-    position:fixed;
     
 }
 .send-area {
@@ -113,3 +112,9 @@ a {
     height:100%;
     width:100%;
 }
+
+#file-message {
+    width:100%;
+    height:auto;
+    object-fit: contain;
+   }

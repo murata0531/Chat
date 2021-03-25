@@ -56,7 +56,7 @@ if(isset($_POST['post_user_id']) && isset($_POST['post_chat_id'])) {
             $current_date = $result_value[0]['date'];
 
             //update chat last_modify date to current time
-            $update_sql = "UPDATE chat SET last_modify = '$current_date'";
+            $update_sql = "UPDATE chat SET last_modify = '$current_date' WHERE chat_id = '$chatId'";
             $update_result = $pdo->query($update_sql);
 
             if($update_result == TRUE){

@@ -359,11 +359,12 @@ class Library extends Database {
     //chat_id,chat,name
     public function get_top_chat($my_id){
 
-        $sql = "SELECT chat.chat_id,chat.chat_type,MAX(last_modify)
+        //max last_modify chat
+        $sql = "SELECT chat.chat_id,chat.chat_type,last_modify
                 from chat,chat_management 
                 WHERE chat.chat_id = chat_management.chat_id
                 AND chat_management.user_id = '$my_id'
-                GROUP BY chat.chat_id LIMIT 1";
+                order by last_modify desc LIMIT 1";
 
 
         $result = $this->conn->query($sql);
@@ -393,7 +394,7 @@ class Library extends Database {
 
                 if($private_result == TRUE){
 
-                    $private_row = $group_result->fetch_assoc();
+                    $private_row = $private_result->fetch_assoc();
                     $return_container = $private_row;
                 }
             }
