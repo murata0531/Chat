@@ -54,9 +54,9 @@ if($top_chat_data == "nothing"){
   <body>
       
     <div class="container-fluid d-flex flex-column vw-100 vh-100 m-0 p-0 position-absolute">
-      <div class="header bg-success start-0 d-flex flex-row justify-content-center position-relative">
+      <div class="header bg-success start-0 d-flex flex-row justify-content-center align-items-center position-relative">
         <!-- header -->
-        <p class="h-100 position-relative">header</p>
+        <p class="display-4 text-white font-weight-bold">Welcome</p>
       </div>
       <!-- body -->
       <div class="body d-flex flex-row vw-100 start-0">
@@ -234,25 +234,8 @@ if($top_chat_data == "nothing"){
           <!-- chat body -->
           <div class="chat-body position-relative d-flex flex-column" id="output">
 
+
             <!-- message show area -->
-
-            <!-- opponentmessage -->
-            <div class="opponent-message d-flex flex-column position-relative w-100 mt-5 bg-primary h-auto">
-              <div class="d-flex flex-row position-relative m-3">
-                <img src="./images/icon_default.png" class="opponent-message-icon">
-                <p class="position-relative m-3 ml-5">2021/01/01 22:44</p>
-              </div>
-              <p class=" opponent-message-text w-50 text-center bg-white position-relative m-3 p-3 rounded-lg">message</p>
-            </div>
-
-            <!-- my message -->
-            <div class="my-message d-flex flex-column position-relative w-100 mt-5 bg-danger auto">
-              <div class="d-flex flex-row position-relative m-3">
-                <p class="my-message-date position-relative m-3">2021/01/01 22:44</p>
-                <img src="" class="my-message-icon ml-3 position-absolute">
-              </div>
-              <p class="my-message-text w-50 text-center bg-white position-relative m-3 p-3 rounded-lg">messhuiiiiiiiiiiiiiiiiiiiagllllllllllllle</p>
-            </div>
             
 
           </div>
@@ -313,11 +296,6 @@ if($top_chat_data == "nothing"){
         let prevTask = Promise.resolve();
         let output = document.getElementById('output');
 
-        //Talk room initialization
-        while(output.firstChild ){
-            output.removeChild(output.firstChild );
-        }
-
 
         database.ref("users/" + room_id).on("child_added", (data) => {
           prevTask = prevTask.finally(async () => {
@@ -328,7 +306,7 @@ if($top_chat_data == "nothing"){
               // load message
               if(v.uid == my_id && v.emessage == "yes"){
 
-                str += '<div class="my-message d-flex flex-column position-relative w-100 mt-5 bg-danger auto">';
+                str += '<div class="my-message d-flex flex-column position-relative w-100 mt-5 h-auto">';
                 str += '<div class="d-flex flex-row position-relative m-3">';
                 str += '<p class="my-message-date position-relative m-3">' + v.senddate + '</p>';
                 str += '<img src="' + v.icon + '" class="my-message-icon ml-3 position-absolute"></div>';
@@ -339,7 +317,7 @@ if($top_chat_data == "nothing"){
 
                 let str='';
 
-                str += '<div class="opponent-message d-flex flex-column position-relative w-100 mt-5 bg-primary h-auto">';
+                str += '<div class="opponent-message d-flex flex-column position-relative w-100 mt-5 h-auto">';
                 str += '<div class="d-flex flex-row position-relative m-3">';
                 str += '<p class="my-message-date position-relative m-3">' + v.senddate + '</p>'
                 str += '<img src="' + v.icon + '" class="my-message-icon ml-3 position-absolute"></div>';
@@ -358,7 +336,7 @@ if($top_chat_data == "nothing"){
 
                     let str='';
 
-                    str += '<div class="my-message d-flex flex-column position-relative w-100 mt-5 bg-danger auto">';
+                    str += '<div class="my-message d-flex flex-column position-relative w-100 mt-5 h-auto">';
                     str += '<div class="d-flex flex-row position-relative m-3">';
                     str += '<p class="my-message-date position-relative m-3">' + v.senddate + '</p>';
                     str += '<img src="' + v.icon + '" class="my-message-icon ml-3 position-absolute"></div>';
@@ -370,7 +348,7 @@ if($top_chat_data == "nothing"){
 
                     let str='';
 
-                    str += '<div class="opponent-message d-flex flex-column position-relative w-100 mt-5 bg-primary h-auto">';
+                    str += '<div class="opponent-message d-flex flex-column position-relative w-100 mt-5 h-auto">';
                     str += '<div class="d-flex flex-row position-relative m-3">';
                     str += '<p class="my-message-date position-relative m-3">' + v.senddate + '</p>'
                     str += '<img src="' + v.icon + '" class="my-message-icon ml-3 position-absolute"></div>';
@@ -383,7 +361,7 @@ if($top_chat_data == "nothing"){
             });
         });
         
-
+        output.scrollIntoView(false);
       });
 
     </script>

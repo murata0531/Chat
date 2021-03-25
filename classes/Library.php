@@ -59,7 +59,6 @@ class Library extends Database {
     //Login
     public function login($email,$password){
 
-        $error;
 
         $sql = "SELECT * FROM users WHERE user_email = '$email'";
 
@@ -67,18 +66,24 @@ class Library extends Database {
         $result = $this->conn->query($sql);
 
         if($result == FALSE){
-            $error = 'Wrong email address or password.';
+            $_SESSION['login-error'] = 'Wrong email address or password.';
         }else {
             if($result->num_rows > 0){
                 $row = $result->fetch_assoc();
 
                 if(password_verify($password,$row['user_password']) == FALSE){
-                    $error = 'Wrong email address or password.';
+                    $_SESSION['login-error'] = 'Wrong email address or password.';
+                }else {
+                    if(isset($_SESSION['login-error'])){
+                        unset($_SESSION['login-error']);
+                    }
                 }
+            }else {
+                $_SESSION['login-error'] = 'Wrong email address or password.';
             }
         }
 
-        if(empty($error)){
+        if(!isset($_SESSION['login-error'])){
 
             $_SESSION['id'] = $row['user_id'];
             $_SESSION['icon'] = $row['user_icon'];

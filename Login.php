@@ -52,26 +52,23 @@ $url_param = $lib_obj->url_param_change(Array("errors"=>null));
                 Login Form
             </div> -->
             <div class="card-body">
-
-                <!-- http://localhost/Chat/library_action.php -->
-                <!-- http://localhost/Chat/library_action.php -->
                 <form action="../home.php" method="post">
                     <p>input your e-mail</p>
                     <input type="email" name="user-email" placeholder="example@example.com" id="user-email" class="form-control mt-3" required>
                     <p>input your password</p>
                     <input type="password" name="user-password" placeholder="input your password" id="user-password" class="form-control mt-3" required>
                     <br>
-                    <?php if(isset($errorMessage)){ ?>
-                    <div class="alert alert-danger" role="alert"><?php echo $errorMessage; ?></div>
+                    <?php if(isset($_SESSION['login-error'])){ ?>
+                    <div class="alert alert-danger" role="alert"><?php echo $_SESSION['login-error'] ?></div>
                     <?php } ?>
-                    <div class="d-flex justify-content-center">
-                        <button type="submit" name="login" id="login" class="btn btn-outline-primary mt-6">Login</button>
+                    <div class="d-flex justify-content-center  mt-3">
+                        <button type="submit" name="login" id="login" class="btn btn-outline-primary w-100">Login</button>
                     </div>
                 </form>
             </div>
-            <div class="card-footer">
+            <!-- <div class="card-footer">
                 <a href="register.php">Click here if you do not have an account</a>
-            </div>
+            </div> -->
         </div>
     </div>
     <!-- Optional JavaScript -->

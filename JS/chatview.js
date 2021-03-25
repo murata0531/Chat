@@ -128,7 +128,7 @@ function user_click(e){
 
                 let str='';
 
-                str += '<div class="my-message d-flex flex-column position-relative w-100 mt-5 bg-danger auto">';
+                str += '<div class="my-message d-flex flex-column position-relative w-100 mt-5 h-auto">';
                 str += '<div class="d-flex flex-row position-relative m-3">';
                 str += '<p class="my-message-date position-relative m-3">' + v.senddate + '</p>';
                 str += '<img src="' + v.icon + '" class="my-message-icon ml-3 position-absolute"></div>';
@@ -138,7 +138,7 @@ function user_click(e){
 
                 let str='';
 
-                str += '<div class="opponent-message d-flex flex-column position-relative w-100 mt-5 bg-primary h-auto">';
+                str += '<div class="opponent-message d-flex flex-column position-relative w-100 mt-5 h-auto">';
                 str += '<div class="d-flex flex-row position-relative m-3">';
                 str += '<p class="my-message-date position-relative m-3">' + v.senddate + '</p>'
                 str += '<img src="' + v.icon + '" class="my-message-icon ml-3 position-absolute"></div>';
@@ -155,7 +155,7 @@ function user_click(e){
 
                         let str='';
 
-                        str += '<div class="my-message d-flex flex-column position-relative w-100 mt-5 bg-danger auto">';
+                        str += '<div class="my-message d-flex flex-column position-relative w-100 mt-5 h-auto">';
                         str += '<div class="d-flex flex-row position-relative m-3">';
                         str += '<p class="my-message-date position-relative m-3">' + v.senddate + '</p>';
                         str += '<img src="' + v.icon + '" class="my-message-icon ml-3 position-absolute"></div>';
@@ -167,7 +167,7 @@ function user_click(e){
 
                         let str='';
 
-                        str += '<div class="opponent-message d-flex flex-column position-relative w-100 mt-5 bg-primary h-auto">';
+                        str += '<div class="opponent-message d-flex flex-column position-relative w-100 mt-5 h-auto">';
                         str += '<div class="d-flex flex-row position-relative m-3">';
                         str += '<p class="my-message-date position-relative m-3">' + v.senddate + '</p>'
                         str += '<img src="' + v.icon + '" class="my-message-icon ml-3 position-absolute"></div>';
