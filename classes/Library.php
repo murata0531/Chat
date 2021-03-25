@@ -6,37 +6,39 @@ class Library extends Database {
     //register
     public function register($name,$email,$password,$comfirm){
 
-        $errors = [];
-
         if (!preg_match("/^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}$/i", $password)) {
-            $errors[] = "Please enter the password with at least 8 characters including uppercase letters, lowercase letters and numbers.";
-            //complete
-            //print_r($errors);
-
+            $_SESSION['error-password'] = "Please enter the password with at least 8 characters including uppercase letters, lowercase letters and numbers.";
+        }else {
+            if(isset($_SESSION['error-password'])){
+                unset($_SESSION['error-password']);
+            }
         }
 
         if($password != $comfirm){
-            $errors[] = 'not comfirm your password';
-            //complete
-            // print_r($errors);
+            $_SESSION['error-comfirm'] = 'not comfirm your password';
+        }else {
+            if(isset($_SESSION['error-comfirm'])){
+                unset($_SESSION['error-comfirm']);
+            }
         }
-
-        if(empty($errors)){
-
+        
+        if(!isset($_SESSION['error-password']) && !isset($_SESSION['error-comfirm'])){
             $pass_hash = password_hash($password, PASSWORD_DEFAULT);
 
             $sql = "INSERT INTO users(user_name,user_email,user_password)VALUES('$name','$email','$pass_hash')";
             $result = $this->conn->query($sql);
-    
+
             if($result == TRUE){
                 
+                if(isset($_SESSION['error-email'])){
+                    unset($_SESSION['error-email']);
+                }
+
                 $result_sql = "SELECT * FROM users WHERE user_email = '$email'";
 
                 $complete_result = $this->conn->query($result_sql);
 
-                if($complete_result == FALSE){
-                    $errors[] = 'Wrong email address or password.';
-                }else {
+                if($complete_result == TRUE) {
                     if($complete_result->num_rows > 0){
                         $row = $complete_result->fetch_assoc();
                         $_SESSION['id'] = $row['user_id'];
@@ -48,10 +50,12 @@ class Library extends Database {
                     }
                 }
             }else {
-                die('ERROR: '.$this->conn->error);
+                $_SESSION['error-email'] = 'Invalid email address.';
+                header('location:./UI');
+                exit();
             }
         }else {
-            header('location:./UI?=' . $errors);
+            header('location:./UI');
             exit();
         }
     }
@@ -93,11 +97,8 @@ class Library extends Database {
                 header('location:./Home.php');
             }
         }else {
-            //post request
-            // header('location:./UI?error=' . $error,true,307);
-
-            //get request
-            header('location:./UI?error=' . $error);
+            
+            header('location:./UI');
 
             exit();
         }

@@ -195,21 +195,29 @@ if(isset($_SESSION['id'])){
                   register Form
               </div> -->
               <div class="card-body">
-                  <form action="../Home.php" method="post">
-                      <p>input your name</p>
-                      <input type="text" name="register-user-name" placeholder="input your name" id="register-user-name" class="form-control mt-3" required>
-                      <p>input your email</p>
-                      <input type="text" name="register-user-email" placeholder="example@example.com" id="register-user-email" class="form-control mt-3" required>
-                      <p>input your password</p>
-                      <input type="password" name="register-user-password" placeholder="input your password" id="register-user-password" class="form-control mt-3" required>
-                      <p>comfirm your password</p>
-                      <input type="password" name="register-comfirm-password" placeholder="comfirm your password" id="register-comfirm-password" class="form-control mt-3" required>
-                      <button type="submit" name="register" id="register" class="btn btn-outline-primary mt-3">create account</button>
-                  </form>
+                <form action="../Home.php" method="post">
+                  <p>input your name</p>
+                  <input type="text" name="register-user-name" placeholder="input your name" id="register-user-name" class="form-control mt-3" required>
+                  <br>
+                  <p>input your email</p>
+                  <input type="text" name="register-user-email" placeholder="example@example.com" id="register-user-email" class="form-control mt-3" required>
+                  <br>
+                  <p>input your password</p>
+                  <input type="password" name="register-user-password" 
+                    placeholder="8 or more characters including uppercase, lowercase, and numbers."
+                    id="register-user-password" class="form-control mt-3" required>
+                    <br>
+                  <p>comfirm your password</p>
+                  <input type="password" name="register-comfirm-password" placeholder="comfirm your password" id="register-comfirm-password" class="form-control mt-3" required>
+                  <br>
+                  <div class="d-flex justify-content-center  mt-3">
+                    <button type="submit" name="register" id="register" class="btn btn-outline-primary w-100">create account</button>
+                  </div>
+                </form>
               </div>
-              <div class="card-footer">
+              <!-- <div class="card-footer">
                   <a href="register.php">Click here if you have an account</a>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
