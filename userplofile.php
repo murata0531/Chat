@@ -78,14 +78,14 @@ $my_data = $lib_obj->get_my_data($_SESSION['id']);
         </div>
         
         <!-- main -->
-        <div class="main w-75 start-25 position-relative d-flex flex-column justify-content-center align-items-center">
+        <div class="main w-75 h-100 start-25 position-relative d-flex flex-column justify-content-center align-items-center" style="overflow:scroll;">
             <div class="container position-relative h-75">
-                <div class="card mt-5 mx-auto w-75 h-75 position-relative">
+                <div class="card mt-5 mx-auto w-75 position-relative">
                     <!-- <div class="card-header">
                         Login Form
                     </div> -->
                     <div class="card-body position-relative">
-                        <form action="useredit.php" method="post">
+                        <form action="useredit.php" method="post" >
                             <p>Your name</p>
                             <input type="text" name="user-name" placeholder="" id="user-name" class="form-control mt-3" value="<?php echo $my_data['user_name'] ?>" readonly>
                             <p>Your e-mail</p>
