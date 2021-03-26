@@ -231,7 +231,8 @@ if(isset($_SESSION['id'])){
           </div>
         </div>
       </div>
-    </section><!-- End Skills Section -->
+    </section>
+    <!-- End Skills Section -->
 
     <!-- ======= Resume Section ======= -->
     <!-- <section id="resume" class="resume">

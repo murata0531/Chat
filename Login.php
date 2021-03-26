@@ -2,27 +2,6 @@
 
 include 'library_action.php';
 
-
-// $url = parse_url($_SERVER["REQUEST_URI"]);
-
-// print_r($url);
-
-if(isset($_GET['error'])){
-    $errorMessage = $_GET['error'];
-}
-
-// if(isset($url["query"])){
-
-//     if(isset($_GET['error'])){
-//         $errorMessage = $_GET['error'];
-//         print_r($errorMessage);
-//     }
-
-//     parse_str($url["query"],$query);
-// }
-
-$url_param = $lib_obj->url_param_change(Array("errors"=>null));
-
 ?>
 
 <!doctype html>
