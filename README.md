@@ -4,12 +4,12 @@ Realtime chat
 using Firebase
     
     ・Realtime Database
-    
+
     ・Storage
 
 _____________________________________
 
-Deply 
+Build
 
 Create "firebase.js" in the "api" folder and paste your api key
 
