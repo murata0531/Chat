@@ -65,7 +65,7 @@ if($top_chat_data == "nothing"){
           <!-- profile -->
           <!-- <p class="profile position-relative border-bottom"><a href="profile" class="text-white position-absolute">Profile</a></p> -->
           <button type="button" class="profile btn position-relative w-100 border-bottom bottom-0 text-white">
-            <a href="./userplofile.php">Profile</a>
+            <a href="./userplofile.php" id="profile" class="text-white">Profile</a>
           </button>
           <!-- add user -->
           <button type="button" class="add-user btn position-relative w-100 border-bottom bottom-0 text-white" data-toggle="modal" data-target="#adduserModal">
