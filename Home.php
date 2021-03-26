@@ -65,7 +65,7 @@ if($top_chat_data == "nothing"){
           <!-- profile -->
           <!-- <p class="profile position-relative border-bottom"><a href="profile" class="text-white position-absolute">Profile</a></p> -->
           <button type="button" class="profile btn position-relative w-100 border-bottom bottom-0 text-white">
-            Profile
+            <a href="./userplofile.php">Profile</a>
           </button>
           <!-- add user -->
           <button type="button" class="add-user btn position-relative w-100 border-bottom bottom-0 text-white" data-toggle="modal" data-target="#adduserModal">
@@ -120,9 +120,9 @@ if($top_chat_data == "nothing"){
             </div>
             <div class="panel panel-default">
             <!-- logout -->
-            <button type="button" class="logout btn btn-danger position-relative w-100 border-bottom bottom-0" data-toggle="modal" data-target="#logoutModal">
-            Logout
-          </button>
+              <button type="button" class="logout btn btn-danger position-relative w-100 border-bottom bottom-0" data-toggle="modal" data-target="#logoutModal">
+                Logout
+              </button>
             </div>
           </div>
         </div>
@@ -319,10 +319,9 @@ if($top_chat_data == "nothing"){
 
                 str += '<div class="opponent-message d-flex flex-column position-relative w-100 mt-5 h-auto">';
                 str += '<div class="d-flex flex-row position-relative m-3">';
-                str += '<p class="my-message-date position-relative m-3">' + v.senddate + '</p>'
-                str += '<img src="' + v.icon + '" class="my-message-icon ml-3 position-absolute"></div>';
-                str += '<p class="my-message-text w-50 text-center bg-white position-relative m-3 p-3 rounded-lg">' + v.message + '</p>';                
-                
+                str += '<img src="' + v.icon + '" class="opponent-message-icon">';
+                str += '<p class="position-relative m-3 ml-5">' + v.senddate + '</p></div>'
+                str += '<p class=" opponent-message-text w-50 text-center bg-white position-relative m-3 p-3 rounded-lg">' + v.message + '</p></div>';                
                 output.innerHTML += str;
 
               }
@@ -350,9 +349,9 @@ if($top_chat_data == "nothing"){
 
                     str += '<div class="opponent-message d-flex flex-column position-relative w-100 mt-5 h-auto">';
                     str += '<div class="d-flex flex-row position-relative m-3">';
-                    str += '<p class="my-message-date position-relative m-3">' + v.senddate + '</p>'
-                    str += '<img src="' + v.icon + '" class="my-message-icon ml-3 position-absolute"></div>';
-                    str += '<p class="my-message-text w-50 text-center bg-white position-relative m-3 p-3 rounded-lg"><a href=' + url + '><img id="file-message" src=' + url + ' target="_blank" rel="noopener noreferrer"></a></p></div>';
+                    str += '<img src="' + v.icon + '" class="opponent-message-icon">';
+                    str += '<p class="position-relative m-3 ml-5">' + v.senddate + '</p></div>';
+                    str += '<p class=" opponent-message-text w-50 text-center bg-white position-relative m-3 p-3 rounded-lg"><a href=' + url + '><img id="file-message" src=' + url + ' target="_blank" rel="noopener noreferrer"></a></p>';
                     
                     output.innerHTML += str;
                   }
