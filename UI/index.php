@@ -202,14 +202,23 @@ if(isset($_SESSION['id'])){
                   <p>input your email</p>
                   <input type="text" name="register-user-email" placeholder="example@example.com" id="register-user-email" class="form-control mt-3" required>
                   <br>
+                  <?php if(isset($_SESSION['error-email'])){ ?>
+                    <div class="alert alert-danger" role="alert"><?php echo $_SESSION['error-email'] ?></div>
+                  <?php } ?>
                   <p>input your password</p>
                   <input type="password" name="register-user-password" 
                     placeholder="8 or more characters including uppercase, lowercase, and numbers."
                     id="register-user-password" class="form-control mt-3" required>
-                    <br>
+                  <br>
+                  <?php if(isset($_SESSION['error-password'])){ ?>
+                    <div class="alert alert-danger" role="alert"><?php echo $_SESSION['error-password'] ?></div>
+                  <?php } ?>
                   <p>comfirm your password</p>
                   <input type="password" name="register-comfirm-password" placeholder="comfirm your password" id="register-comfirm-password" class="form-control mt-3" required>
                   <br>
+                  <?php if(isset($_SESSION['error-comfirm'])){ ?>
+                    <div class="alert alert-danger" role="alert"><?php echo $_SESSION['error-comfirm'] ?></div>
+                  <?php } ?>
                   <div class="d-flex justify-content-center  mt-3">
                     <button type="submit" name="register" id="register" class="btn btn-outline-primary w-100">create account</button>
                   </div>

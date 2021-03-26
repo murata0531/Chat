@@ -15,7 +15,7 @@ class Library extends Database {
         }
 
         if($password != $comfirm){
-            $_SESSION['error-comfirm'] = 'not comfirm your password';
+            $_SESSION['error-comfirm'] = 'Password do not match.';
         }else {
             if(isset($_SESSION['error-comfirm'])){
                 unset($_SESSION['error-comfirm']);
