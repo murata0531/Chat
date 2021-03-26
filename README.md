@@ -2,7 +2,9 @@
 Realtime chat
 
 using Firebase
+    
     ・Realtime Database
+    
     ・Storage
 
 _____________________________________
