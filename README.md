@@ -11,7 +11,7 @@ _____________________________________
 
 Build
 
-Create "firebase.js" in the "api" folder and paste your api key
+Create "firebaseapi.js" in the "api" folder and paste your api key
 
 For example:
 
