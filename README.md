@@ -15,7 +15,7 @@ Create "firebaseapi.js" in the "api" folder and paste your api key
 
 For example:
 
-```
+```firebaseapi.js
 var firebaseConfig = {
   apiKey: "example",
   authDomain: "example.com",
